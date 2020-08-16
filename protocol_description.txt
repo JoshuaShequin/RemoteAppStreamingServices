@@ -1,0 +1,68 @@
+First byte is a string for who is the sender
+C = Client
+S = Server
+
+At this point it splits in to two different protocol alignments
+
+Client Side -
+Up to the next 16 bytes are taken to identify the user, terminated with a 0x20
+or a space.
+
+Immediately following the user space is the command byte that follows this table:
+0x00 - System Status Check
+0x01 - Get Streaming Service
+0x02 - Pause Streaming
+0x03 - Play Streaming
+0x04 - Full Screen
+0x05 - Exit Full Screen
+0x06 - Back 30 Seconds
+0x07 - Forward 30 Seconds
+0x08 - Back x seconds
+0x09 - Forward x seconds
+0x0A - Next Episode
+0x0B - Previous Episode
+0x0C - Get show being watched(might not be implemented)
+0x0D - Get episode of show being watched(might not be implemented)
+
+In the case of an 'x' being present in the command name the next two bytes will
+be used to serve as the x.
+
+Server Side -
+All server side responses will be just that, responses to specific client side
+packets.
+
+The first byte will hold the command being responded to. The next Bytes will be
+the return bytes to the specific packet.
+
+In most cases it will be a one-byte response in this format(might make this flag bits in the future):
+0x10 - Success
+0x20 - Failure
+
+Specific cases are as follows:
+Response to 0x00 -
+    First byte identifies if the user is allowed to use the system(might make this flag bits in the future)
+    0x10 - Allowed
+    0x20 - Denied
+
+    if the service is denied then the rest of the packet will be omitted.
+
+    Second byte identifies if the system is currently watching a streaming
+    service
+    0x10 - Yes
+    0x20 - No
+
+    Third byte identifies which streaming service the system is currently watching
+    0x01 - Netflix
+    0x02 - Hulu
+    0x03 - Crunchyroll
+
+    Fourth Byte is the status of the streaming
+    0x01 - Playing
+    0x02 - Paused
+    0x03 - Episode not loaded
+
+    Next 32 bytes(might not be implemented? not sure yet) is the show being watched
+    this will only be filled if the fourth byte is not 0x03. If 32 bytes is not
+    needed the section will be terminated with an ASCII '*'
+
+Other cases will be filled as developed.
