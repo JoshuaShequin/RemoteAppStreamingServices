@@ -55,6 +55,7 @@ Response to 0x00 -
     0x01 - Netflix
     0x02 - Hulu
     0x03 - Crunchyroll
+    0x04 - Twitch
 
     Fourth Byte is the status of the streaming
     0x01 - Playing

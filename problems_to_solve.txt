@@ -1,0 +1,5 @@
+1. How to get window information in google chrome
+    a. Optional to make user enter this information, but not preferred
+2. How to get further information from the tab
+    a. Image recognition?
+3. Remember the Python library I used before to simulate mouse actions
